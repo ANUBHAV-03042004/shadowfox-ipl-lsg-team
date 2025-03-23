@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="/favicon.png" type="image/png">
+    <title>IPL Auction 2025 - AKS IPL PROJECT LSG</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .nav-item .nav-link {
+    transition: color 0.3s ease-in-out,transform 0.5s ease;
+    color: rgba(255, 255, 255, 0.75); 
+}
+
+.nav-item .nav-link:hover {
+    color: rgb(255, 255, 255) !important; 
+    transform:scale(1.25) !important;
+}
+        body {
+            min-height: 180vh;
+            overflow-y: auto;
+            background-color: #212529; /* Matches header */
+        }
+
+        .auction-content .team-logo {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: 2px solid white;
+            object-fit: contain;
+            padding: 5px;
+            cursor: pointer;
+            opacity: 0.5;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        .auction-content .team-logo.selected {
+            opacity: 1;
+            transform: scale(1.2);
+            position: relative;
+        }
+
+        /* Remove any box-like element around selected logo */
+        .auction-content .team-logo.selected::before,
+        .auction-content .team-logo.selected::after {
+            content: none !important;
+        }
+
+        .auction-content .team-logo:hover {
+            opacity: 0.9;
+            transform: scale(1.2);
+        }
+
+        .auction-content .container-wrapper {
+            margin-top: 80px; 
+            padding-bottom: 50px;
+            min-height: 150vh; 
+        }
+
+        .auction-content .team-logos-div {
+            width: 100%;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(0, 0, 0, 0.9));
+            border-radius: 15px;
+            padding: 2rem;
+        }
+
+        .auction-content .auction-details-div {
+            width: 80%;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(0, 0, 0, 0.9));
+            border-radius: 15px;
+        }
+
+        /* Retained Players Section */
+        .auction-content .retained-players-div {
+            width: 100%;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(0, 0, 0, 0.9));
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+
+        .auction-content .players-container {
+            width: 100%;
+            height: 40vh;
+            overflow-x: auto;
+            overflow-y: hidden;
+            white-space: nowrap;
+            scroll-behavior: smooth;
+            padding: 20px;
+        }
+
+        .auction-content .players-container::-webkit-scrollbar {
+            height: 10px;
+        }
+
+        .auction-content .players-container::-webkit-scrollbar-track {
+            background: #1a1a1a; /* Single dark color */
+            border-radius: 10px;
+        }
+
+        .auction-content .players-container::-webkit-scrollbar-thumb {
+            background: #c1bbbb;
+            border-radius: 10px;
+        }
+
+        .auction-content .player-card {
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            width: 250px;
+            min-height: 200px;
+            border-radius: 15px;
+            border: 2px solid #FFFFFF; /* White border */
+            padding: 20px;
+            margin-right: 25px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .auction-content .player-card:hover {
+            transform: translateY(-15px) scale(1.05);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .auction-content .player-name {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #FFFFFF; /* White */
+            margin-bottom: 10px;
+            white-space: normal; /* Allow wrapping */
+            overflow-wrap: break-word; /* Break after spaces */
+            text-align: center; /* Keep centered */
+        }
+
+        .auction-content .player-role {
+            font-size: 1.1rem;
+            color: #FFFFFF; /* White */
+            font-style: italic;
+            margin-bottom: 8px;
+        }
+
+        .auction-content .player-price {
+            font-size: 1rem;
+            color: #FFFFFF; /* White */
+        }
+
+        .auction-content .player-price span {
+            color: #FFFFFF; /* White */
+            font-weight: 600;
+        }
+
+        .auction-content .scroll-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255, 255, 255, 0.2);
+            border: none;
+            border-radius: 50%;
+            color: #fff;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            z-index: 10;
+        }
+
+        .auction-content .scroll-btn:hover {
+            background-color: rgba(255, 255, 255, 0.4);
+        }
+
+        .auction-content .scroll-left {
+            left: 10px;
+        }
+
+        .auction-content .scroll-right {
+            right: 10px;
+        }
+
+        /* Bought Players Section - New Style */
+        .auction-content .bought-players-div {
+            width: 100%;
+            background: linear-gradient(45deg, rgba(0, 0, 0, 0.8), rgba(50, 50, 50, 0.5)); /* Different gradient */
+            border-radius: 20px; /* More rounded corners */
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5); /* Stronger shadow */
+            position: relative;
+            border: 1px solid rgba(255, 255, 255, 0.2); /* Subtle border */
+        }
+
+        .auction-content .bought-players-container {
+            width: 100%;
+            height: 40vh;
+            overflow-x: auto;
+            overflow-y: hidden;
+            white-space: nowrap;
+            scroll-behavior: smooth;
+            padding: 20px;
+        }
+
+        .auction-content .bought-players-container::-webkit-scrollbar {
+            height: 10px;
+        }
+
+        .auction-content .bought-players-container::-webkit-scrollbar-track {
+            background: #1a1a1a;
+            border-radius: 10px;
+        }
+
+        .auction-content .bought-players-container::-webkit-scrollbar-thumb {
+            background: #c1bbbb;
+            border-radius: 10px;
+        }
+
+        .auction-content .bought-player-card {
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            width: 220px; /* Slightly smaller than retained */
+            min-height: 180px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(0, 0, 0, 0.8));
+            border-radius: 10px; /* Different shape */
+            border: 2px dashed #FFFFFF; /* Dashed white border */
+            padding: 15px;
+            margin-right: 20px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .auction-content .bought-player-card:hover {
+            transform: translateY(-10px) rotate(2deg); /* Rotate on hover for a playful effect */
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(0, 0, 0, 0.9));
+        }
+
+        .auction-content .bought-player-name {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #FFFFFF;
+            margin-bottom: 8px;
+            text-transform: uppercase; /* Different text style */
+            white-space: normal; /* Allow wrapping */
+            overflow-wrap: break-word; /* Break after spaces */
+            text-align: center; /* Keep centered */
+        }
+
+        .auction-content .bought-player-role {
+            font-size: 1rem;
+            color: #FFFFFF;
+            font-style: normal; /* Not italic */
+            margin-bottom: 6px;
+            opacity: 0.9;
+        }
+
+        .auction-content .bought-player-price {
+            font-size: 0.9rem;
+            color: #FFFFFF;
+        }
+
+        .auction-content .bought-player-price span {
+            color: #FFFFFF;
+            font-weight: 600;
+        }
+
+        .auction-content .bought-scroll-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255, 255, 255, 0.3); /* Slightly different button style */
+            border: 1px solid #FFFFFF;
+            border-radius: 50%;
+            color: #fff;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            z-index: 10;
+        }
+
+        .auction-content .bought-scroll-btn:hover {
+            background-color: rgba(255, 255, 255, 0.5);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .auction-content .bought-scroll-left {
+            left: 10px;
+        }
+
+        .auction-content .bought-scroll-right {
+            right: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .auction-content .team-logo {
+                width: 60px;
+                height: 60px;
+            }
+            .auction-content .team-logos-div,
+            .auction-content .auction-details-div,
+            .auction-content .retained-players-div,
+            .auction-content .bought-players-div {
+                width: 100%;
+            }
+            .auction-content .player-card,
+            .auction-content .bought-player-card {
+                width: 200px;
+                min-height: 180px;
+            }
+            .auction-content .player-name,
+            .auction-content .bought-player-name {
+                font-size: 1.2rem;
+            }
+            body {
+                padding-top: 70px;
+            }
+            .auction-content .scroll-btn,
+            .auction-content .bought-scroll-btn {
+                width: 30px;
+                height: 30px;
+                font-size: 1.2rem;
+            }
+        }
+
+        .hii:hover {
+            background-color: yellow;
+        }
+    </style>
+</head>
+<body class="bg-dark text-white">
+    <%- include('partials/header') %>
+
+    <div class="auction-content">
+        <div class="container container-wrapper d-flex flex-column gap-5 align-items-center">
+            <!-- Team Logos -->
+            <div class="team-logos-div border border-2 border-white d-flex justify-content-center align-items-center gap-5">
+                <% auctions.forEach(auction => { %>
+                    <img src="<%= auction.team_img %>" 
+                         alt="<%= auction.team_name %>" 
+                         class="team-logo <%= auction.team_name === 'Lucknow Super Giants' ? 'selected' : '' %>" 
+                         data-team="<%= auction.team_name %>">
+                <% }); %> 
+            </div>
+
+            <!-- Auction Details -->
+            <div class="auction-details-div border border-2 border-white p-4 d-flex justify-content-center gap-4">
+                <div class="flex-fill text-center border-end border-white">
+                    <h5 class="fw-bold">PURSE AMOUNT (₹)</h5>
+                    <h5 id="purse-amount" class="mt-3">-</h5>
+                </div>
+                <div class="flex-fill text-center border-end border-white">
+                    <h5 class="fw-bold">AMOUNT SPENT (₹)</h5>
+                    <h5 id="amount-spent" class="mt-3">-</h5>
+                </div>
+                <div class="flex-fill text-center border-end border-white">
+                    <h5 class="fw-bold">AMOUNT REMAINING (₹)</h5>
+                    <h5 id="amount-remaining" class="mt-3">-</h5>
+                </div>
+                <div class="flex-fill text-center">
+                    <h5 class="fw-bold">REMAINING RTM</h5>
+                    <h5 id="remaining-rtm" class="mt-3">-</h5>
+                </div>
+            </div>
+
+            <!-- Retained Players -->
+            <div id="player_retained" class="retained-players-div">
+                <h4 class="text-center mb-4 fw-bold">Retained Players</h4>
+                <button class="scroll-btn scroll-left">←</button>
+                <div class="players-container" id="players-container">
+                    <% if (defaultTeam && defaultTeam.players.length > 0) { %>
+                        <% defaultTeam.players.forEach(player => { %>
+                            <% if (player.status === "Retained") { %>
+                                <div class="player-card" data-team="Lucknow Super Giants">
+                                    <span class="player-name"><%= player.name %></span>
+                                    <span class="player-role"><%= player.role %></span>
+                                    <span class="player-price">Base Price: <span><%= player.base_price || "N/A" %></span></span>
+                                    <span class="player-price">Current Price: <span><%= player.current_price || "N/A" %></span></span>
+                                </div>
+                            <% } %>
+                        <% }); %>
+                    <% } else { %>
+                        <div class="player-card text-center" data-team="Lucknow Super Giants">No Retained Players</div>
+                    <% } %>
+                </div>
+                <button class="scroll-btn scroll-right">→</button>
+            </div>
+
+            <!-- Bought Players -->
+            <div id="player_bought" class="bought-players-div">
+                <h4 class="text-center mb-4 fw-bold">Bought Players</h4>
+                <button class="bought-scroll-btn bought-scroll-left">←</button>
+                <div class="bought-players-container" id="bought-players-container">
+                    <% if (defaultTeam && defaultTeam.players.length > 0) { %>
+                        <% defaultTeam.players.forEach(player => { %>
+                            <% if (player.status === "Bought") { %>
+                                <div class="bought-player-card" data-team="Lucknow Super Giants">
+                                    <span class="bought-player-name"><%= player.name %></span>
+                                    <span class="bought-player-role"><%= player.role %></span>
+                                    <span class="bought-player-price">Base Price: <span><%= player.base_price || "N/A" %></span></span>
+                                    <span class="bought-player-price">Current Price: <span><%= player.current_price || "N/A" %></span></span>
+                                </div>
+                            <% } %>
+                        <% }); %>
+                    <% } else { %>
+                        <div class="bought-player-card text-center" data-team="Lucknow Super Giants">No Bought Players</div>
+                    <% } %>
+                </div>
+                <button class="bought-scroll-btn bought-scroll-right">→</button>
+            </div>
+
+            <div id="auction-data" data-auctions='<%= JSON.stringify(auctions) %>' class="d-none"></div>
+        </div>
+    </div>
+
+    <%- include('partials/footer') %>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const teamLogos = document.querySelectorAll(".auction-content .team-logo");
+            const purseAmountEl = document.getElementById("purse-amount");
+            const amountSpentEl = document.getElementById("amount-spent");
+            const amountRemainingEl = document.getElementById("amount-remaining");
+            const remainingRtmEl = document.getElementById("remaining-rtm");
+            const playersContainer = document.getElementById("players-container");
+            const boughtPlayersContainer = document.getElementById("bought-players-container");
+            const scrollLeftBtn = document.querySelector(".auction-content .scroll-left");
+            const scrollRightBtn = document.querySelector(".auction-content .scroll-right");
+            const boughtScrollLeftBtn = document.querySelector(".auction-content .bought-scroll-left");
+            const boughtScrollRightBtn = document.querySelector(".auction-content .bought-scroll-right");
+
+            const auctionData = JSON.parse(document.getElementById("auction-data").dataset.auctions);
+
+            // Define team colors (using the exact colors you provided)
+            const teamColors = {
+                "Chennai Super Kings": "#FFD700", 
+                "Delhi Capitals": "#D3D3D3",
+                "Gujarat Titans": "#B8860B",
+                "Kolkata Knight Riders": "#4B0082", 
+                "Lucknow Super Giants": "#1e3c72",
+                "Kings XI Punjab": "#8B0000",
+                "Mumbai Indians": "#00008B", 
+                "Royal Challengers Bangalore": "#1C2526", 
+                "Rajasthan Royals": "#C71585", 
+                "Sunrisers Hyderabad": "#FF4500"
+            };
+
+            // Set default team and colors
+            let defaultTeam = auctionData.find(team => team.team_name === "Lucknow Super Giants");
+            if (defaultTeam) {
+                updateTeamData(defaultTeam);
+                updateRetainedPlayers(defaultTeam);
+                updateBoughtPlayers(defaultTeam);
+                updatePlayerCardColors(defaultTeam.team_name);
+            }
+
+            teamLogos.forEach((logo) => {
+                logo.addEventListener("click", () => {
+                    teamLogos.forEach(l => l.classList.remove("selected"));
+                    logo.classList.add("selected");
+
+                    const selectedTeamName = logo.dataset.team;
+                    const selectedTeam = auctionData.find(team => team.team_name === selectedTeamName);
+                    if (selectedTeam) {
+                        updateTeamData(selectedTeam);
+                        updateRetainedPlayers(selectedTeam);
+                        updateBoughtPlayers(selectedTeam);
+                        updatePlayerCardColors(selectedTeamName);
+                    }
+                });
+            });
+
+            function updateTeamData(team) {
+                purseAmountEl.textContent = team.purse_amount || "0";
+                amountSpentEl.textContent = team.amount_spent || "0";
+                amountRemainingEl.textContent = team.amount_remaining || "0";
+                remainingRtmEl.textContent = team.remaining_rtm || "0";
+            }
+
+            function updateRetainedPlayers(team) {
+                let playerHTML = '';
+                if (team && team.players && team.players.length > 0) {
+                    team.players.forEach(player => {
+                        if (player.status === "Retained") {
+                            playerHTML += `
+                                <div class="player-card" data-team="${team.team_name}">
+                                    <span class="player-name">${player.name}</span>
+                                    <span class="player-role">${player.role}</span>
+                                    <span class="player-price">Base Price: <span>${player.base_price || "N/A"}</span></span>
+                                    <span class="player-price">Current Price: <span>${player.current_price || "N/A"}</span></span>
+                                </div>
+                            `;
+                        }
+                    });
+                } else {
+                    playerHTML = `<div class="player-card text-center" data-team="${team.team_name}">No Retained Players</div>`;
+                }
+                playersContainer.innerHTML = playerHTML;
+                updateScrollButtons();
+            }
+
+            function updateBoughtPlayers(team) {
+                let playerHTML = '';
+                if (team && team.players && team.players.length > 0) {
+                    team.players.forEach(player => {
+                        if (player.status === "Bought") {
+                            playerHTML += `
+                                <div class="bought-player-card" data-team="${team.team_name}">
+                                    <span class="bought-player-name">${player.name}</span>
+                                    <span class="bought-player-role">${player.role}</span>
+                                    <span class="bought-player-price">Base Price: <span>${player.base_price || "N/A"}</span></span>
+                                    <span class="bought-player-price">Current Price: <span>${player.current_price || "N/A"}</span></span>
+                                </div>
+                            `;
+                        }
+                    });
+                } else {
+                    playerHTML = `<div class="bought-player-card text-center" data-team="${team.team_name}">No Bought Players</div>`;
+                }
+                boughtPlayersContainer.innerHTML = playerHTML;
+                updateBoughtScrollButtons();
+            }
+
+            function updatePlayerCardColors(teamName) {
+                const playerCards = document.querySelectorAll(".auction-content .player-card");
+                const boughtPlayerCards = document.querySelectorAll(".auction-content .bought-player-card");
+                const teamColor = teamColors[teamName] || "#006400"; // Fallback to LSG color
+
+                // Update Retained Players cards
+                playerCards.forEach(card => {
+                    card.style.background = `linear-gradient(45deg, ${teamColor}, ${teamColor}CC)`;
+                });
+
+                // Update Bought Players cards
+                boughtPlayerCards.forEach(card => {
+                    card.style.background = `linear-gradient(135deg, ${teamColor}33, rgba(0, 0, 0, 0.8))`; // Slightly different gradient for bought players
+                });
+            }
+
+            const scrollAmount = 300;
+            scrollLeftBtn.addEventListener("click", () => {
+                playersContainer.scrollBy({ left: -scrollAmount, behavior: "smooth" });
+            });
+
+            scrollRightBtn.addEventListener("click", () => {
+                playersContainer.scrollBy({ left: scrollAmount, behavior: "smooth" });
+            });
+
+            boughtScrollLeftBtn.addEventListener("click", () => {
+                boughtPlayersContainer.scrollBy({ left: -scrollAmount, behavior: "smooth" });
+            });
+
+            boughtScrollRightBtn.addEventListener("click", () => {
+                boughtPlayersContainer.scrollBy({ left: scrollAmount, behavior: "smooth" });
+            });
+
+            function updateScrollButtons() {
+                const maxScroll = playersContainer.scrollWidth - playersContainer.clientWidth;
+                const tolerance = 5;
+                scrollLeftBtn.style.display = playersContainer.scrollLeft > 0 ? "block" : "none";
+                scrollRightBtn.style.display = playersContainer.scrollLeft < maxScroll - tolerance ? "block" : "none";
+            }
+
+            function updateBoughtScrollButtons() {
+                const maxScroll = boughtPlayersContainer.scrollWidth - boughtPlayersContainer.clientWidth;
+                const tolerance = 5;
+                boughtScrollLeftBtn.style.display = boughtPlayersContainer.scrollLeft > 0 ? "block" : "none";
+                boughtScrollRightBtn.style.display = boughtPlayersContainer.scrollLeft < maxScroll - tolerance ? "block" : "none";
+            }
+
+            playersContainer.addEventListener("scroll", updateScrollButtons);
+            boughtPlayersContainer.addEventListener("scroll", updateBoughtScrollButtons);
+            updateScrollButtons();
+            updateBoughtScrollButtons();
+        });
+    </script>
+</body>
+</html>

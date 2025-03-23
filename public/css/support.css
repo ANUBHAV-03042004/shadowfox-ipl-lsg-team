@@ -1,0 +1,261 @@
+body {
+    min-height: 100vh;
+    overflow-y: auto;
+}
+
+.nav-item .nav-link {
+    transition: color 0.3s ease-in-out, transform 0.5s ease;
+    color: rgba(255, 255, 255, 0.75);
+}
+
+.nav-item .nav-link:hover {
+    color: rgb(255, 255, 255) !important;
+    transform: scale(1.25) !important;
+}
+
+/* Support Players Section */
+.support-content .support-players-div {
+    background: linear-gradient(90deg, rgba(0, 0, 0, 0.9), rgba(30, 60, 114, 0.2));
+    position: relative;
+    min-height: 400px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.support-content .support-players-container {
+    height: 40vh;
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+    scroll-behavior: smooth;
+}
+
+.support-content .support-players-container::-webkit-scrollbar {
+    height: 10px;
+}
+
+.support-content .support-players-container::-webkit-scrollbar-track {
+    background: #1a1a1a;
+    border-radius: 10px;
+}
+
+.support-content .support-players-container::-webkit-scrollbar-thumb {
+    background: #c1bbbb;
+    border-radius: 10px;
+}
+
+.support-content .support-player-card {
+    display: inline-flex;
+    border: 2px dotted #FFFFFF;
+    transition: transform 0.3s ease, background 0.3s ease;
+}
+
+.support-content .support-player-card:hover {
+    transform: translateY(-10px) scale(1.03);
+    background: linear-gradient(90deg, rgba(30, 60, 114, 0.5), rgba(0, 0, 0, 0.9)) !important;
+}
+
+.support-content .support-player-name {
+    white-space: normal;
+    overflow-wrap: break-word;
+}
+
+.support-content .support-scroll-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 40px;
+    height: 40px;
+    background-color: rgba(255, 255, 255, 0.3);
+    border: 1px solid #FFFFFF;
+    border-radius: 50%;
+    color: #fff;
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    z-index: 10;
+}
+
+.support-content .support-scroll-btn:hover {
+    background-color: rgba(255, 255, 255, 0.5);
+    transform: translateY(-50%) scale(1.1);
+}
+
+.support-content .support-scroll-left {
+    left: 10px;
+}
+
+.support-content .support-scroll-right {
+    right: 10px;
+}
+
+/* Star Rating */
+.star-rating .fas {
+    color: #ccc;
+    cursor: pointer;
+}
+
+.star-rating .fas.filled {
+    color: #ffd700;
+}
+
+/* Like/Dislike Buttons */
+.like-dislike .fas {
+    cursor: pointer;
+    font-size: 1.2rem;
+    margin: 0 5px;
+}
+
+.like-dislike .fas.fa-thumbs-up {
+    color: #28a745;
+}
+
+.like-dislike .fas.fa-thumbs-down {
+    color: #dc3545;
+}
+
+.like-dislike .fas.fa-circle {
+    color: #6c757d;
+}
+
+/* Fan Polls Section */
+.support-content .fan-polls-div {
+    background: linear-gradient(90deg, rgba(0, 0, 0, 0.9), rgba(30, 60, 114, 0.3));
+    position: relative;
+    min-height: 400px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.support-content .fan-polls-container {
+    height: 40vh;
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+    scroll-behavior: smooth;
+}
+
+.support-content .fan-polls-container::-webkit-scrollbar {
+    height: 10px;
+}
+
+.support-content .fan-polls-container::-webkit-scrollbar-track {
+    background: #1a1a1a;
+    border-radius: 10px;
+}
+
+.support-content .fan-polls-container::-webkit-scrollbar-thumb {
+    background: #c1bbbb;
+    border-radius: 10px;
+}
+
+.support-content .poll-card {
+    display: inline-flex;
+    border: 2px solid #FFFFFF;
+    transition: transform 0.3s ease, background 0.3s ease;
+    position: relative;
+}
+
+.support-content .poll-card:hover {
+    transform: translateY(-10px) scale(1.03);
+    background: linear-gradient(90deg, rgba(30, 60, 114, 0.6), rgba(0, 0, 0, 0.9)) !important;
+}
+
+.support-content .poll-question {
+    white-space: normal;
+    overflow-wrap: break-word;
+}
+
+.support-content .poll-option {
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.support-content .poll-option:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.support-content .poll-scroll-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 40px;
+    height: 40px;
+    background-color: rgba(255, 255, 255, 0.3);
+    border: 1px solid #FFFFFF;
+    border-radius: 50%;
+    color: #fff;
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    z-index: 10;
+}
+
+.support-content .poll-scroll-btn:hover {
+    background-color: rgba(255, 255, 255, 0.5);
+    transform: translateY(-50%) scale(1.1);
+}
+
+.support-content .poll-scroll-left {
+    left: 10px;
+}
+
+.support-content .poll-scroll-right {
+    right: 10px;
+}
+
+/* Delete Button for Polls */
+.support-content .delete-poll-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: #dc3545;
+    border: none;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.support-content .delete-poll-btn:hover {
+    background-color: #c82333;
+}
+
+/* Create Poll Form */
+.support-content .create-poll-div {
+    background: linear-gradient(90deg, rgba(0, 0, 0, 0.9), rgba(30, 60, 114, 0.3));
+}
+
+/* Comment Form Section */
+.support-content .comment-form-div {
+    background: linear-gradient(90deg, rgba(0, 0, 0, 0.9), rgba(30, 60, 114, 0.4));
+    margin-bottom: 60px;
+}
+
+/* Modal Styling */
+.modal-content {
+    background: linear-gradient(90deg, rgba(0, 0, 0, 0.9), rgba(30, 60, 114, 0.3));
+    color: #fff;
+}
+
+.modal-header, .modal-footer {
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .support-content .support-scroll-btn,
+    .support-content .poll-scroll-btn {
+        width: 30px;
+        height: 30px;
+        font-size: 1.2rem;
+    }
+}

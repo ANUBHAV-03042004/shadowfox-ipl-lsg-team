@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" href="/favicon.png" type="image/png">
+    <title>Standings - AKS IPL PROJECT LSG</title>
+    <link rel="stylesheet" href="css/home.css">
+    <link rel="stylesheet" href="/css/squad.css">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+.table-container table {
+    background-color: black; 
+    color: white; 
+}
+.team-row td {
+    background-color: rgba(255, 255, 255, 0.15);
+    color: white; 
+    text-align: center;
+    padding: 10px;
+    border: 1px solid #444; 
+}
+
+/* Highlight Lucknow Super Giants Row */
+.highlight-lsg td {
+    background-color: #007bff !important; 
+    color: white !important; 
+}
+
+/* Form guide circle styling */
+.form-circle {
+    display: inline-flex;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: white;
+    margin: 0 4px;
+}
+
+/* Win (W) - Green */
+.win {
+    background-color: green;
+}
+
+/* Loss (L) - Red */
+.loss {
+    background-color: red;
+}
+
+    </style>
+</head>
+<body class="bg-dark">
+    <div class="position-relative vh-100 d-flex justify-content-center align-items-center ">
+        
+        <%- include('partials/header') %>
+        <div class="position-absolute top-0 start-0 mt-5 ms-3 text-white p-3 rounded w-100" style="max-width: 1500px;">
+            <div class="container text-center">
+                <!-- Filter Dropdown -->
+                <div class="filter-container">
+                    <label for="year-select" class="me-2">Select Year:</label>
+                    <select id="year-select" class="form-select w-auto">
+                        <% allYears.forEach(year => { %>
+                            <option value="<%= year %>" <%= year == selectedYear ? "selected" : "" %>><%= year %></option>
+                        <% }); %>
+                    </select>
+                    <button class="btn btn-warning" id="reset-filter">Reset</button>
+                </div>
+                <!-- table -->
+                <div class="table-container">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Position</th>
+                                <th>Team</th>
+                                <th>Matches</th>
+                                <th>Wins</th>
+                                <th>Losses</th>
+                                <th>No Result</th>
+                                <th>Net RR</th>
+                                <th>Points</th>
+                                <th>Form Guide</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% if (standings && standings.teams) { %>
+                                <% standings.teams.forEach((team, index) => { %>
+                                    <tr class="team-row <%= team.team_name === 'Lucknow Super Giants' ? 'highlight-lsg' : '' %>">
+                                        <td><%= index < 4 ? "Q" + (index + 1) : index + 1 %></td>
+                                        <td class="d-flex align-items-center justify-content-end" style="text-align: right;">
+                                            <img src="<%= team.team_img %>" class="team-logo" style="width: 40px; height: 40px; margin-right: 8px;">
+                                            <span class="team-name" style="white-space: nowrap; flex-grow: 1; text-align: left;"><%= team.team_name %></span>
+                                        </td>                                                                             
+                                        <td><%= team.matches %></td>
+                                        <td><%= team.wins %></td>
+                                        <td><%= team.losses %></td>
+                                        <td><%= team.no_result %></td>
+                                        <td><%= team.net_rr %></td>
+                                        <td><%= team.points %></td>
+                                        <td>
+                                            <% team.form_guide.forEach(result => { %>
+                                                <span class="form-circle <%= result === 'W' ? 'win' : 'loss' %>"><%= result %></span>
+                                            <% }); %>
+                                        </td>
+                                    </tr>
+                                <% }); %>
+                            <% } else { %>
+                                <tr>
+                                    <td colspan="9">No data available for the selected year</td>
+                                </tr>
+                            <% } %>
+                        </tbody>                        
+                    </table>
+                </div>
+            </div>
+            <br><br>
+        
+            </div>
+        <%- include('partials/footer') %>
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+        <script>
+            document.getElementById("year-select").addEventListener("change", function() {
+                const selectedYear = this.value;
+                window.location.href = "/standings?year=" + selectedYear;
+            });
+    
+            document.getElementById("reset-filter").addEventListener("click", function() {
+                window.location.href = "/standings";
+            });
+        </script>
+</body>
+</html>

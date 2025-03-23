@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="/favicon.png" type="image/png">
+    <title><%= player.name %> - Profile - AKS IPL PROJECT</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/home.css">
+</head>
+<body class="bg-dark text-white">
+    <div class="container mt-4">
+        <div class="row">
+        <!-- Left Side (38%) - Player Profile -->
+<div class="col-md-4 col-lg-3">
+    <div class="profile-card">
+        <h2 class="text-center"><%= player.name %></h2>
+        <img src="<%= player.image %>" alt="<%= player.name %>" class="player-img">
+        
+        <!-- Special Stats: Matches, Runs & Role-Specific Stat -->
+      <!-- Player Overall Stats -->
+<div class="d-flex justify-content-between text-center mt-3">
+    <div class="stat-box">
+        <p><strong>Matches</strong></p>
+        <p id="matchesStat"><%= profile.overall_ipl_stats.matches || "N/A" %></p>
+    </div>
+    
+    <div class="stat-box">
+        <p><strong>Runs</strong></p>
+        <p id="runsStat"><%= profile.overall_ipl_stats.runs || "N/A" %></p>
+    </div>
+    
+    <div class="stat-box">
+        <p><strong id="thirdStatTitle">
+            <% let role = player.role.trim().toLowerCase(); %>
+            <% if (role.includes("wicket")) { %> Stumpings
+            <% } else if (role.includes("batsman")) { %> Highest Score
+            <% } else if (role.includes("all-rounder")) { %> St.Rate
+            <% } else if (role.includes("bowler")) { %> Wickets
+            <% } %>
+        </strong></p>
+        <p id="thirdStatValue">
+            <% if (role.includes("wicket")) { %>
+                <%= profile.overall_ipl_stats.stumpings || "N/A" %>
+            <% } else if (role.includes("batsman")) { %>
+                <%= profile.overall_ipl_stats.highest_score || "N/A" %>
+            <% } else if (role.includes("all-rounder")) { %>
+                <%= profile.overall_ipl_stats.strike_rate || "N/A" %>
+            <% } else if (role.includes("bowler")) { %>
+                <%= profile.overall_ipl_stats.wickets || "N/A" %>
+            <% } %>
+        </p>
+    </div>    
+</div>
+
+
+        <p><strong>Role:</strong> <%= player.role %></p>
+
+        <% if (profile) { %>
+            <p><strong>Born:</strong> <%= profile.born %></p>
+            <p><strong>IPL Debut:</strong> <%= profile.ipl_debut %></p>
+            <p><strong>Batting Style:</strong> <%= profile.batting_style %></p>
+            <p><strong>Bowling Style:</strong> <%= profile.bowling_style %></p>
+            <p><strong>Nationality:</strong> <%= profile.nationality %></p>
+        <% } else { %>
+            <p>No detailed profile available.</p>
+        <% } %>
+    </div>
+</div>
+         
+
+            <!-- Right Side (60%) - Stats, Biography, and Other Info -->
+            <div class="col-md-8 col-lg-9"> 
+                    <!-- Flex Container for Filter Switch & Back Button -->
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div class="filter-switch text-center">
+                            <input checked id="option1" name="options" type="radio" onclick="showStats('ipl')" />
+                            <label class="option" for="option1">IPL Stats</label>
+                            <input id="option2" name="options" type="radio" onclick="showStats('t20')" />
+                            <label class="option" for="option2">T20 Stats</label> 
+                            <span class="background"></span>
+                        </div>
+                        <a href="/team" class="btn back">Back to Team</a>
+                    </div>
+                <!-- Biography Card (Above Filter Switch) -->
+                <div class="bio-card mb-3">
+                    <h4>Biography</h4>
+                    <% if (profile && profile.biography) { %>
+                        <p><%= profile.biography %></p>
+                    <% } else { %>
+                        <p>No biography available.</p>
+                    <% } %>
+                </div>
+<!-- IPL Stats Table -->
+<h1 id="iplHeading">IPL STATISTICS</h1>
+<table id="iplTable" class="table table-bordered table-dark">
+    <tr>
+        <th>Matches</th><th>Runs</th><th>HS</th><th>Avg</th><th>SR</th><th>100s</th><th>50s</th><th>4s</th><th>6s</th><th>Ball Faced</th><th>Wickets</th><th>Dot Ball</th><th>Maidens</th><th>Catches</th><th>Run Outs</th><th>Stumpings</th>
+    </tr>
+    <!-- IPL Match-by-Match Stats -->
+    <% profile.ipl_stats.forEach(match => { %>
+        <tr>
+            <td><%= match.matches %></td>
+            <td><%= match.runs %></td>
+            <td><%= match.highest_score %></td>
+            <td><%= match.average %></td>
+            <td><%= match.strike_rate %></td>
+            <td><%= match.hundreds %></td>
+            <td><%= match.fifties %></td>
+            <td><%= match.fours %></td>
+            <td><%= match.sixes %></td>
+            <td><%= match.balls_faced %></td>
+            <td><%= match.wickets %></td>
+            <td><%= match.dot_balls %></td>
+            <td><%= match.maidens %></td>
+            <td><%= match.catches %></td>
+            <td><%= match.run_outs %></td>
+            <td><%= match.stumpings %></td>
+        </tr>
+    <% }) %>
+        <!-- Overall IPL Stats (Single Row) -->
+        <tr class="table-warning text-dark fw-bold">
+            <td><%= profile.overall_ipl_stats.matches %></td>
+            <td><%= profile.overall_ipl_stats.runs %></td>
+            <td><%= profile.overall_ipl_stats.highest_score %></td>
+            <td><%= profile.overall_ipl_stats.average %></td>
+            <td><%= profile.overall_ipl_stats.strike_rate %></td>
+            <td><%= profile.overall_ipl_stats.hundreds %></td>
+            <td><%= profile.overall_ipl_stats.fifties %></td>
+            <td><%= profile.overall_ipl_stats.fours %></td>
+            <td><%= profile.overall_ipl_stats.sixes %></td>
+            <td><%= profile.overall_ipl_stats.balls_faced %></td>
+            <td><%= profile.overall_ipl_stats.wickets %></td>
+            <td><%= profile.overall_ipl_stats.dot_balls %></td>
+            <td><%= profile.overall_ipl_stats.maidens %></td>
+            <td><%= profile.overall_ipl_stats.catches %></td>
+            <td><%= profile.overall_ipl_stats.run_outs %></td>
+            <td><%= profile.overall_ipl_stats.stumpings %></td>
+        </tr>
+</table>
+
+<!-- T20 Stats Table -->
+<h1 id="t20Heading" style="display: none;">T20 STATISTICS</h1>
+<table id="t20Table" class="table table-bordered table-dark">
+    <tr>
+        <th>Matches</th><th>Runs</th><th>HS</th><th>Avg</th><th>SR</th><th>100s</th><th>50s</th><th>4s</th><th>6s</th><th>Ball Faced</th><th>Wickets</th><th>Dot Ball</th><th>Maidens</th><th>Catches</th><th>Run Outs</th><th>Stumpings</th>
+    </tr>
+    <!-- T20 Match-by-Match Stats -->
+    <% profile.t20_stats.forEach(match => { %>
+        <tr>
+            <td><%= match.matches %></td>
+            <td><%= match.runs %></td>
+            <td><%= match.highest_score %></td>
+            <td><%= match.average %></td>
+            <td><%= match.strike_rate %></td>
+            <td><%= match.hundreds %></td>
+            <td><%= match.fifties %></td>
+            <td><%= match.fours %></td>
+            <td><%= match.sixes %></td>
+            <td><%= match.balls_faced %></td>
+            <td><%= match.wickets %></td>
+            <td><%= match.dot_balls %></td>
+            <td><%= match.maidens %></td>
+            <td><%= match.catches %></td>
+            <td><%= match.run_outs %></td>
+            <td><%= match.stumpings %></td>
+        </tr>
+    <% }) %>
+       <!-- Overall T20 Stats (Single Row) -->
+       <tr class="table-warning text-dark fw-bold">
+        <td><%= profile.overall_t20_stats.matches %></td>
+        <td><%= profile.overall_t20_stats.runs %></td>
+        <td><%= profile.overall_t20_stats.highest_score %></td>
+        <td><%= profile.overall_t20_stats.average %></td>
+        <td><%= profile.overall_t20_stats.strike_rate %></td>
+        <td><%= profile.overall_t20_stats.hundreds %></td>
+        <td><%= profile.overall_t20_stats.fifties %></td>
+        <td><%= profile.overall_t20_stats.fours %></td>
+        <td><%= profile.overall_t20_stats.sixes %></td>
+        <td><%= profile.overall_t20_stats.balls_faced %></td>
+        <td><%= profile.overall_t20_stats.wickets %></td>
+        <td><%= profile.overall_t20_stats.dot_balls %></td>
+        <td><%= profile.overall_t20_stats.maidens %></td>
+        <td><%= profile.overall_t20_stats.catches %></td>
+        <td><%= profile.overall_t20_stats.run_outs %></td>
+        <td><%= profile.overall_t20_stats.stumpings %></td>
+    </tr>
+
+</table>
+
+<!-- JavaScript to Handle Switching Between IPL & T20 Stats -->
+<script>
+    let iplStats = JSON.parse('<%- JSON.stringify(profile.overall_ipl_stats || {}) %>');
+    let t20Stats = JSON.parse('<%- JSON.stringify(profile.overall_t20_stats || {}) %>');
+    let role = "<%= player.role ? player.role.trim().toLowerCase() : '' %>";
+
+    function showStats(type) {
+    // Show/Hide Tables
+    document.getElementById("iplTable").style.display = (type === "ipl") ? "table" : "none";
+    document.getElementById("t20Table").style.display = (type === "t20") ? "table" : "none";
+    document.getElementById("iplHeading").style.display = (type === "ipl") ? "block" : "none";
+    document.getElementById("t20Heading").style.display = (type === "t20") ? "block" : "none";
+
+    // Get Stats Object
+    let stats = (type === "ipl") ? iplStats : t20Stats;
+
+    // Update Stat-Box Values
+    document.getElementById("matchesStat").innerText = stats.matches || "N/A";
+    document.getElementById("runsStat").innerText = stats.runs || "N/A";
+
+    // Update Third Stat Based on Player Role
+    let thirdStatTitle = document.getElementById("thirdStatTitle");
+    let thirdStatValue = document.getElementById("thirdStatValue");
+
+    if (role.includes("wicket")) {
+        thirdStatTitle.innerText = "Stumpings";
+        thirdStatValue.innerText = stats.stumpings || "N/A";
+    } else if (role.includes("batsman")) {
+        thirdStatTitle.innerText = "Hi.Score";
+        thirdStatValue.innerText = stats.highest_score || "N/A";
+    } else if (role.includes("all-rounder")) {
+        thirdStatTitle.innerText = "St.Rate";
+        thirdStatValue.innerText = stats.strike_rate || "N/A";
+    } else if (role.includes("bowler")) {
+        thirdStatTitle.innerText = "Wickets";
+        thirdStatValue.innerText = stats.wickets || "N/A";
+    }
+}
+
+// Show IPL stats by default
+showStats("ipl");
+
+</script>
+</body>
+</html>

@@ -1,0 +1,124 @@
+
+/* squad-team */
+.team-section {
+    display: none;
+  }
+  
+  .team-section.active {
+    display: block;
+  }
+  .form-check-input {
+    display: none;
+  }
+  /* Button Hover Effect */
+  label.option {
+    font-size: 18px;
+    color:white;
+    font-weight: 800;
+    cursor: pointer;
+    position: relative;
+    border: none;
+    background: none;
+    text-transform: uppercase;
+    transition: color 400ms cubic-bezier(0.25, 0.8, 0.25, 1);
+  }
+  
+  label.option:focus,
+  label.option:hover {
+    color: #ffc000;
+  }
+  
+  label.option:after {
+    content: "";
+    pointer-events: none;
+    bottom: -2px;
+    left: 50%;
+    position: absolute;
+    width: 0%;
+    height: 2px;
+    background-color:#ffc000;
+    transition: width 400ms cubic-bezier(0.25, 0.8, 0.25, 1), left 400ms;
+  }
+  
+  label.option:focus:after,
+  label.option:hover:after {
+    width: 100%;
+    left: 0%;
+  }
+  
+  .form-check-input:checked + .option {
+    color: #ffc000;
+  }
+  
+  .form-check-input:checked + .option:after {
+    width: 100%;
+    left: 0%;
+  }
+  /* match-info */
+  #match_info {
+    display: none;
+    margin-top: 20px;
+    width: 100%; 
+  
+  }
+  .table {
+    display: table !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+  /* Match Info Table */
+  .match-info-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0 10px; /* Adds spacing between rows */
+  }
+  
+  /* Label Column */
+  .match-info-table td:first-child {
+      background-color: #ffc000;
+      color: #000;
+      font-weight: bold;
+      text-align: left;
+      padding: 12px;
+      width: 30%;
+      border-top-left-radius: 8px;
+      border-bottom-left-radius: 8px;
+  }
+  
+  /* Data Column */
+  .match-info-table td:last-child {
+    background-color: rgba(80, 76, 76, 0.15);
+      color: white;
+      text-align: left;
+      padding: 12px;
+      border-top-right-radius: 8px;
+      border-bottom-right-radius: 8px;
+  }
+  
+  /* squad-table */
+  .squad-table {
+    width: 100%;
+  }
+  
+  
+  .squad-table thead {
+    background-color: #ffc000;
+    color: #000;
+    font-weight: bold;
+    text-align: left;
+  
+  }
+  
+  .squad-table th {
+    padding: 12px;
+    text-align: left;
+  }
+  
+  .squad-table tbody tr td {
+    background-color: rgba(80, 76, 76, 0.15);
+    color: white;
+    text-align: left;
+    padding: 12px;
+  }
+  
+  

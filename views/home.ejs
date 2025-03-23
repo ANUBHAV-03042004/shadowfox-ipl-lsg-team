@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="/favicon.png" type="image/png">
+    <title>Home - AKS IPL PROJECT LSG</title>
+    <link rel="stylesheet" href="css/home.css">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+</head>
+<body class="bg-dark">
+
+    <div class="position-relative vh-100 d-flex justify-content-center align-items-center ">
+        
+        <%- include('partials/header') %>
+
+        <div class="container-fluid d-flex flex-column align-items-center min-vh-100">
+            <!-- Main Content -->
+            <div class="d-flex justify-content-center align-items-center">
+                
+                <!-- Left Column (3 Small Images) -->
+                <div class="d-flex flex-column me-4 text-center">
+                    <div>
+                        <img src="/justin_langer.png" class="img-fluid img-hover mb-2" style="width: 140px; height: 140px;" alt="Head Coach">
+                        <h1 class="text-white fs-5">Head Coach <br> (JUSTIN LANGER)</h1>
+                    </div>
+                    <div>
+                        <img src="/players/rishabh_pant.png" class="img-fluid img-hover mb-2" style="width: 180px; height: 140px;" alt="Team Captain">
+                        <h1 class="text-white fs-5">Team Captain <br> (RISHABH PANT)</h1>
+                    </div>
+                    <div>
+                        <img src="/lsg_jersy.png" class="img-fluid img-hover" style="width: 140px; height: 140px;margin-bottom:1vh;" alt="LSG Jersey">
+                        <h1 class="text-white fs-5">LSG Jersey</h1>
+                    </div>
+                </div>
+        
+                <div class="d-flex flex-column align-items-center mt-1">
+
+                    <!-- News Section -->
+                    <div class="news-container text-white text-center mb-1" style="width: 60%;">
+                        <h2>Latest Cricket News 🏏</h2>
+                        <div class="news-ticker-wrapper">
+                            <div id="news-ticker" class="news-ticker"></div>
+                        </div>
+                    </div>
+                
+                    <!-- Main Image -->
+                    <div class="d-flex justify-content-center align-items-center mt-1" style="width: 900px; height: 500px; cursor: pointer;" onclick="openModal()">
+                        <img src="/home.png" alt="home-img" class="img-fluid w-75 img-hover">
+                    </div>
+                
+                </div>
+                <!-- Right Column (3 Small Images) -->
+                <div class="d-flex flex-column ms-4 text-center">
+                    <div>
+                        <img src="/rpsg_logo.png" class="img-fluid img-hover mb-2" style="width: 140px; height: 140px;" alt="RPSG GROUP LOGO">
+                        <h1 class="text-white fs-5">RPSG GROUP</h1>
+                    </div>
+                    <div>
+                        <img src="/sanjiv_goenka.jpg" class="img-fluid img-hover mb-2" style="width: 140px; height: 140px;" alt="Owner of RPSG group">
+                        <h1 class="text-white fs-5"> MR.SANJIV GOENKA <br> (OWNER)</h1>
+                    </div>
+                    <div>
+                        <img src="/ekana_stadium.jpg" class="img-fluid img-hover" style="width: 140px; height: 140px; border-radius:50%;margin-bottom:1vh;" alt="Ekana Stadium">
+                        <h1 class="text-white fs-5">EKANA STADIUM <br> (HOME GROUND) </h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+<!-- Description Modal -->
+<div class="modal fade" id="imageModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content bg-dark text-white">
+            <div class="modal-header">
+                <h5 class="modal-title">About Lucknow Super Giants</h5>
+                <button type="button" class="btn-close bg-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center">
+               <p>Lucknow Super Giants (LSG) is a professional cricket franchise based in Lucknow, Uttar Pradesh, that competes in the Indian Premier League (IPL). 
+                The team was established in 2021 and made its IPL debut in the 2022 season.
+                 Owned by the RPSG Group, LSG is one of the newest teams in the tournament.</p>
+            </div>
+        </div>
+    </div>
+</div>
+<%- include('partials/footer') %>
+    </div>
+    <!-- Bootstrap JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+<script>
+    function openModal() {
+        var myModal = new bootstrap.Modal(document.getElementById('imageModal'));
+        myModal.show();
+    }
+    async function fetchCricketNews() {
+    try {
+        const response = await fetch("http://localhost:2500/rss-feed");
+        const text = await response.text();
+        const parser = new DOMParser();
+        const xml = parser.parseFromString(text, "text/xml");
+        const items = xml.querySelectorAll("item");
+
+        let newsHtml = "";
+        items.forEach((item) => {
+            const title = item.querySelector("title").textContent;
+            const link = item.querySelector("link").textContent;
+            newsHtml += `<span class="news-item">🔹 <a href="${link}" target="_blank">${title}</a></span> `;
+        });
+
+        let ticker = document.getElementById("news-ticker");
+        ticker.innerHTML = newsHtml.repeat(4); // Repeat 4 times to ensure continuous scroll
+
+        // Adjust speed dynamically for smoother animation
+        let contentWidth = ticker.scrollWidth / 4; // Divided by repeat count
+        let speed = contentWidth / 40; // Lower divisor = faster speed
+        ticker.style.animation = `scrollNews ${speed}s linear infinite`;
+
+    } catch (error) {
+        console.error("Error fetching RSS feed:", error);
+    }
+}
+
+fetchCricketNews();
+
+</script>
+</html>

@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="/favicon.png" type="image/png">
+    <title><%= vs_match.team1_short %> vs <%= vs_match.team2_short %></title> 
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/home.css">
+    <link rel="stylesheet" href="/css/squad.css">
+</head>
+<body class="bg-dark text-white">
+        <div class="container mt-4 top-card">
+            <div class="row">
+                <!-- Left Side (40%) - Player Profile -->
+                <div class="col-md-5 col-lg-4">
+                    <div class="profile-card vs-card">
+                        <h5 class="text-center"><%= match.match_info.series %></h5>
+                        <h5 class="text-center"><%= vs_match.team1_short %> vs <%= vs_match.team2_short %>, <%= match.match_number %></h5>
+                        <h6 class="text-center bg-secondary w-50 mx-auto rounded py-2 text-white">
+                            <%= vs_match.status_match_centre %>
+                        </h6>     
+                        <br>     
+                        <div class="d-flex justify-content-center align-items-center w-100">
+                            <img src="<%= match.team1_img %>" alt="<%= match.team1_short %>" class="team-logo">
+                            <h5 class="mx-3 mt-3">V/S</h5>
+                            <img src="<%= match.team2_img %>" alt="<%= match.team2_short %>" class="team-logo">
+                        </div>
+                        <br>
+                        <p class="text-center"><strong>Match Begins At:</strong> <%= match.date %> - <%= match.time_IST %></p>
+                    </div>
+                </div>
+
+ 
+     <!-- Right Side (60%) - Other Content -->
+<div class="col-md-7 col-lg-8">
+    <!-- Flex Container for Filter Switch & Back Button -->
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <div class="filter-switch text-center">
+            <input checked id="option1" name="options" type="radio" onclick="showsquad()" />
+            <label class="option" for="option1">Squads</label>
+            <input id="option2" name="options" type="radio" onclick="showinfo()" />
+            <label class="option" for="option2">Match Info</label> 
+            <span class="background"></span>
+        </div>
+        <a href="/matches" class="btn back">Back to Fixtures</a>
+    </div>
+
+    <!-- Squads Section -->
+    <div id="squads" class="content-section">
+        <div class="d-flex justify-content-center gap-3 bg-rgba(80, 76, 76, 0.15); rounded-4 p-3 border border-white">
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="teamOptions" id="team1Radio" onclick="showTeam('team1')" checked>
+                <label class="option" for="team1Radio"><%=match.team1%> Squad</label>
+            </div>
+
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="teamOptions" id="team2Radio" onclick="showTeam('team2')">
+                <label class="option" for="team2Radio"><%=match.team2%> Squad</label>
+            </div>
+        </div>
+
+        <div id="team1" class="team-section active mt-2">
+            <div class="table-responsive">
+                <table class="table squad-table">
+                    <thead>
+                        <tr>
+                            <th>Squads</th>
+                            <th>Matches</th>
+                            <th>Runs</th>
+                            <th>Bat Avg</th>
+                            <th>Wickets</th>
+                            <th>Economy Rate</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% let ateamStats = vs_match.squad_stats[vs_match.team1_short]; %>
+                        <% ateamStats.forEach(player => { %>
+                        <tr>
+                            <td><%= player.member_name %></td>
+                            <td><%= player.match %></td>
+                            <td><%= player.runs %></td>
+                            <td><%= player.bat_avg %></td>
+                            <td><%= player.wickets %></td>
+                            <td><%= player.e_r %></td>
+                        </tr>
+                        <% }); %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="team2" class="team-section mt-2">
+            <table class="table squad-table">
+                <thead>
+                    <tr>
+                        <th><i class="fa-solid fa-cricket-bat-ball"></i>Squads</th>
+                        <th>Matches</th>
+                        <th>Runs</th>
+                        <th>Bat Avg</th>
+                        <th>Wickets</th>
+                        <th>Economy Rate</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% let bteamStats = vs_match.squad_stats[vs_match.team2_short]; %>
+                    <% bteamStats.forEach(player => { %>
+                    <tr>
+                        <td><%= player.member_name %></td>
+                        <td><%= player.match %></td>
+                        <td><%= player.runs %></td>
+                        <td><%= player.bat_avg %></td>
+                        <td><%= player.wickets %></td>
+                        <td><%= player.e_r %></td>
+                    </tr>
+                    <% }); %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Match Info Section (Moved Below Squads) -->
+    <div id="match_info" class="content-section mt-3" style="display: none;">
+        <div class="table-responsive">
+            <table class="table match-info-table">
+                <tbody>
+                    <tr><td>Match</td><td><%= match.match_id %></td></tr>
+                    <tr><td>Venue</td><td><%= match.location %></td></tr>
+                    <tr><td>Date & Time</td><td><%= match.date %> | <%= match.time_IST %></td></tr>
+                    <tr><td>Status</td><td><%= vs_match.status_match_centre %></td></tr>
+                    <tr><td>Series</td><td><%= match.match_info.series %></td></tr>
+                    <tr><td>Weather</td><td><%= match.match_info.details.weather %></td></tr>
+                    <tr><td>Toss</td><td><%= match.match_info.details.toss %></td></tr>
+                    <tr><td>Umpire</td><td><%= match.match_info.details.umpires %></td></tr>
+                    <tr><td>Referee</td><td><%= match.match_info.details.referee %></td></tr>
+                    <tr><td>Player Of The Match</td><td><%= match.match_info.details.player_of_the_match %></td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+        
+              <!-- table div end -->
+    </div>
+</div>
+
+            </div> <!-- End Row -->
+        </div> <!-- End Container -->
+    </div>
+    <script>
+        function showsquad() {
+            document.getElementById('squads').style.display = 'block';
+            document.getElementById('match_info').style.display = 'none';
+            console.log("Squads section displayed");
+        }
+    
+        function showinfo() {
+            document.getElementById('squads').style.display = 'none';
+            document.getElementById('match_info').style.display = 'block';
+            console.log("Match info section displayed");
+        }
+    
+        // Ensure the correct section is visible on page load
+        document.addEventListener("DOMContentLoaded", function () {
+            showsquad(); // Default to Squads
+        });
+    
+        function showTeam(team) {
+            document.getElementById('team1').classList.remove('active');
+            document.getElementById('team2').classList.remove('active');
+            document.getElementById(team).classList.add('active');
+        }
+    </script>
+    
+    
+</body>
+</html>
