@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="/favicon.png" type="image/png">
+    <title>Error - Incorrect Route | AKS IPL PROJECT</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body {
+            background-color: #1a1a1a; /* Dark background to match supportPlayer.ejs */
+            color: #fff; /* White text */
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            text-align: center;
+            font-family: 'Arial', sans-serif;
+        }
+        .error-container {
+            background: linear-gradient(90deg, #1e3c72, rgba(0, 0, 0, 0.8)); /* Gradient to match player cards */
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            max-width: 500px;
+            width: 90%;
+        }
+        .error-icon {
+            font-size: 3rem;
+            color: #ff4d4d; /* Red color for the warning icon */
+            margin-bottom: 20px;
+        }
+        .error-message {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        .error-description {
+            font-size: 1rem;
+            margin-bottom: 25px;
+            color: #d3d3d3; /* Light gray for description */
+        }
+        .btn-back {
+            background-color: #ffd700; /* Gold color to match LSG theme */
+            color: #000;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        .btn-back:hover {
+            background-color: #e6c200;
+        }
+    </style>
+</head>
+<body>
+    <div class="error-container">
+        <i class="fas fa-exclamation-triangle error-icon"></i>
+        <h1 class="error-message">Oops! Incorrect Route</h1>
+        <p class="error-description">It looks like you've entered an incorrect route. The page you're looking for doesn't exist.</p>
+        <a href="/" class="btn btn-back">Go Back to Home</a>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

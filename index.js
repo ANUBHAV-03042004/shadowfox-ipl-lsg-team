@@ -21,6 +21,15 @@ const Auction=require("./db/auction");
 const { SupportPlayer, FanPoll, PollOption, Comment } = require('./db/support');
 const TELEGRAM_BOT_TOKEN = "7987417040:AAFdVWp4GzpbgMSyOBmGHUI03tdcHy4PDVg";
 const TELEGRAM_CHAT_ID = "5360379087";
+const mongoose = require("mongoose");
+
+
+mongoose.connect("mongodb://localhost:27017/ipl_team", {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+})
+.then(() => console.log("✅ MongoDB Connected"))
+.catch(err => console.error("❌ MongoDB Connection Error:", err));
 app.get("/rss-feed", async (req, res) => {
     try {
         const rssUrl = "https://news.google.com/rss/search?q=cricket&hl=en-US&gl=US&ceid=US:en";
@@ -108,17 +117,6 @@ app.get('/auction', async (req, res) => {
     res.render('auction', { auctions, defaultTeam });
 });
 
-
-// Sample support players data (replace with your actual data source)
-// const supportPlayers = [
-//     { name: "Amit Mishra", role: "Net Bowler", base_price: "N/A" },
-//     { name: "Rahul Sharma", role: "Batting Coach Assistant", base_price: "N/A" },
-//     { name: "Vikram Singh", role: "Fielding Support", base_price: "N/A" }
-// ];
-
-// app.get('/support-player', (req, res) => {
-//     res.render('support-player', { supportPlayers });
-// });
 
 
 
@@ -292,7 +290,7 @@ app.delete('/delete-poll/:pollId', async (req, res) => {
         res.status(500).json({ message: 'Server Error' });
     }});
     app.get('/*',(req,res)=>{
-res.send('hii');
+res.render('error');
     });
 app.listen(port, () => {
     console.log(`🚀 Server is running on http://localhost:${port}`);
