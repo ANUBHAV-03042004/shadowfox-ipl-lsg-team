@@ -23,8 +23,8 @@ const TELEGRAM_BOT_TOKEN = "7987417040:AAFdVWp4GzpbgMSyOBmGHUI03tdcHy4PDVg";
 const TELEGRAM_CHAT_ID = "5360379087";
 const mongoose = require("mongoose");
 
-
-mongoose.connect("mongodb://localhost:27017/ipl_team", {
+// mongodb://localhost:27017/ipl_team
+mongoose.connect("mongodb+srv://ipl_lsg_team:S9n2k%40sh58@akscluster.z0f9q.mongodb.net/ipl_lsg_team?retryWrites=true&w=majority", {
     useNewUrlParser: true,
     useUnifiedTopology: true
 })

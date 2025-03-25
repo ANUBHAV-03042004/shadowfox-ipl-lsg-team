@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const PlayerProfile = require('../../db/player_profile');
 const Player = require('../../db/players');
 
-mongoose.connect('mongodb://localhost:27017/ipl_team', {
+mongoose.connect('mongodb+srv://ipl_lsg_team:S9n2k%40sh58@akscluster.z0f9q.mongodb.net/ipl_lsg_team?retryWrites=true&w=majority', {
     useNewUrlParser: true,
     useUnifiedTopology: true
 }).then(() => console.log("MongoDB Connected"))
