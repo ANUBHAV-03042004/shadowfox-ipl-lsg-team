@@ -30,12 +30,17 @@ mongoose.connect("mongodb+srv://ipl_lsg_team:S9n2k%40sh58@akscluster.z0f9q.mongo
 })
 .then(() => console.log("✅ MongoDB Connected"))
 .catch(err => console.error("❌ MongoDB Connection Error:", err));
-app.get("/rss-feed", async (req, res) => {
+app.get("/proxy-rss-feed", async (req, res) => {
     try {
-        const rssUrl = "https://news.google.com/rss/search?q=cricket&hl=en-US&gl=US&ceid=US:en";
-        const response = await axios.get(rssUrl);
+        const rssUrl = "https://news.google.com/rss/search?q=Lucknow+Super+Giants+cricket&hl=en-US&gl=US&ceid=US:en";
+        const response = await axios.get(rssUrl, {
+            headers: {
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+            }
+        });
         res.send(response.data);
     } catch (error) {
+        console.error("Error fetching RSS feed in proxy:", error.message);
         res.status(500).send("Error fetching RSS feed");
     }
 });
