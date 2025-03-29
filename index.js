@@ -2,7 +2,24 @@ const express = require('express');
 const app = express();
 const cors= require('cors');
 const path= require('path');
-app.use(cors());
+app.use(cors({
+    // Allow requests from your frontend (same origin, so this is optional)
+    origin: true,
+    // Allow preflight requests to include the private network header
+    methods: ['GET', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Access-Control-Request-Private-Network'],
+    exposedHeaders: ['Access-Control-Allow-Private-Network']
+}));
+
+// Handle preflight requests for /proxy-rss-feed
+app.options('/proxy-rss-feed', (req, res) => {
+    res.set({
+        'Access-Control-Allow-Private-Network': 'true',
+        'Access-Control-Allow-Methods': 'GET, OPTIONS',
+        'Access-Control-Allow-Headers': 'Content-Type, Access-Control-Request-Private-Network'
+    });
+    res.status(204).send();
+});
 const Player = require("./db/players");
 const Staff = require("./db/supporting_staff");
 const PlayerProfile = require('./db/player_profile');
@@ -31,6 +48,7 @@ mongoose.connect("mongodb+srv://ipl_lsg_team:S9n2k%40sh58@akscluster.z0f9q.mongo
 .then(() => console.log("✅ MongoDB Connected"))
 .catch(err => console.error("❌ MongoDB Connection Error:", err));
 app.get("/proxy-rss-feed", async (req, res) => {
+    res.set('Access-Control-Allow-Private-Network', 'true');
     try {
         const rssUrl = "https://news.google.com/rss/search?q=Lucknow+Super+Giants+cricket&hl=en-US&gl=US&ceid=US:en";
         const response = await axios.get(rssUrl, {
