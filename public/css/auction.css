@@ -313,3 +313,191 @@
                 font-size: 1.2rem;
             }
         }
+
+             /* Base styles for containers and buttons */
+             .auction-content {
+                margin-top: 70px; /* Space for header */
+                margin-bottom: 50px; /* Space for footer */
+            }
+    
+            .container-wrapper {
+                width: 100%;
+                max-width: 1500px;
+                padding: 0 15px;
+            }
+    
+            /* Team Logos Container */
+            .team-logos-div {
+                width: 100%;
+                overflow-x: auto; /* Scrollbar visible when needed */
+                padding: 15px;
+            }
+    
+            /* Auction Details Container */
+            .auction-details-div {
+                width: 100%;
+                flex-wrap: wrap; /* Allow stacking on small screens */
+                padding: 20px;
+            }
+    
+            .auction-details-div > div {
+                flex: 1 1 200px; /* Flexible width, min 200px */
+                padding: 10px;
+            }
+    
+            /* Retained Players Container */
+            .retained-players-div {
+                width: 100%;
+                position: relative;
+            }
+    
+            .players-container {
+                width: 100%;
+                overflow-x: auto; /* Scrollbar visible when needed */
+                padding: 10px 40px; /* Space for buttons */
+            }
+    
+            /* Bought Players Container */
+            .bought-players-div {
+                width: 100%;
+                position: relative;
+            }
+    
+            .bought-players-container {
+                width: 100%;
+                overflow-x: auto; /* Scrollbar visible when needed */
+                padding: 10px 40px; /* Space for buttons */
+            }
+    
+            /* Scroll Buttons */
+            .scroll-btn, .bought-scroll-btn {
+                position: absolute;
+                top: 50%;
+                transform: translateY(-50%);
+                background-color: #007bff;
+                color: white;
+                border: none;
+                border-radius: 50%;
+                width: 40px;
+                height: 40px;
+                font-size: 20px;
+                line-height: 40px;
+                text-align: center;
+                cursor: pointer;
+                z-index: 1;
+                transition: all 0.3s ease;
+            }
+    
+            .scroll-left, .bought-scroll-left {
+                left: 10px;
+            }
+    
+            .scroll-right, .bought-scroll-right {
+                right: 10px;
+            }
+    
+            /* Responsive adjustments */
+            @media (max-width: 576px) {
+                .auction-content {
+                    margin-top: 50px;
+                    margin-bottom: 30px;
+                }
+    
+                .team-logos-div {
+                    padding: 10px;
+                }
+    
+                .auction-details-div {
+                    flex-direction: column;
+                    gap: 15px;
+                    padding: 15px;
+                }
+    
+                .auction-details-div > div {
+                    padding: 5px;
+                }
+    
+                .players-container, .bought-players-container {
+                    padding: 10px 30px; /* Adjust for smaller buttons */
+                }
+    
+                .scroll-btn, .bought-scroll-btn {
+                    width: 30px;
+                    height: 30px;
+                    font-size: 16px;
+                    line-height: 30px;
+                }
+    
+                .scroll-left, .bought-scroll-left {
+                    left: 5px;
+                }
+    
+                .scroll-right, .bought-scroll-right {
+                    right: 5px;
+                }
+            }
+    
+            @media (min-width: 577px) and (max-width: 768px) {
+                .team-logos-div {
+                    padding: 12px;
+                }
+    
+                .auction-details-div {
+                    flex-wrap: nowrap;
+                    gap: 10px;
+                    padding: 18px;
+                }
+    
+                .players-container, .bought-players-container {
+                    padding: 10px 35px;
+                }
+    
+                .scroll-btn, .bought-scroll-btn {
+                    width: 35px;
+                    height: 35px;
+                    font-size: 18px;
+                    line-height: 35px;
+                }
+            }
+    
+            @media (min-width: 769px) and (max-width: 1024px) {
+                .team-logos-div {
+                    padding: 15px;
+                }
+    
+                .auction-details-div {
+                    gap: 15px;
+                }
+    
+                .players-container, .bought-players-container {
+                    padding: 10px 40px;
+                }
+    
+                .scroll-btn, .bought-scroll-btn {
+                    width: 40px;
+                    height: 40px;
+                    font-size: 20px;
+                    line-height: 40px;
+                }
+            }
+    
+            @media (min-width: 1025px) {
+                .team-logos-div {
+                    padding: 15px;
+                }
+    
+                .auction-details-div {
+                    gap: 20px;
+                }
+    
+                .players-container, .bought-players-container {
+                    padding: 10px 40px;
+                }
+    
+                .scroll-btn, .bought-scroll-btn {
+                    width: 40px;
+                    height: 40px;
+                    font-size: 20px;
+                    line-height: 40px;
+                }
+            }
