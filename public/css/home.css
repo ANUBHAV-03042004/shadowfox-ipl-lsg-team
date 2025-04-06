@@ -371,3 +371,138 @@ text-align: center;
 .top-card{
   margin-left:2vw;
 }
+
+
+
+html, body {
+  height: auto;
+  overflow-y: auto;
+}
+
+.img-hover:hover {
+  transform: scale(1.05);
+  transition: transform 0.3s ease;
+}
+
+.news-ticker-wrapper {
+  overflow: hidden;
+  width: 100%;
+}
+
+.news-ticker {
+  white-space: nowrap;
+  display: inline-block;
+}
+
+.news-item {
+  margin-right: 2rem;
+}
+
+@keyframes scrollNews {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-25%); }
+}
+
+.outer-padding {
+  margin-top: 100px;
+  margin-bottom: 100px;
+}
+
+/* Base styles */
+.main-container {
+  width: 100%;
+  max-width: 1200px;
+}
+
+/* Large screens */
+@media (min-width: 768px) {
+  .main-container {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: flex-start;
+  }
+
+  .side-column {
+      flex: 0 0 20%;
+      max-width: 20%;
+  }
+
+  .center-column {
+      flex: 0 0 60%;
+      max-width: 60%;
+  }
+
+  .news-container {
+      width: 80%;
+  }
+
+  .main-image-container {
+      width: 100%;
+      max-width: 900px;
+      height: 500px;
+  }
+}
+
+/* Smaller screens */
+@media (max-width: 767px) {
+  .main-container {
+      flex-direction: column;
+      align-items: center;
+  }
+
+  .side-column, .center-column {
+      width: 100%;
+      max-width: 100%;
+  }
+
+  .news-container {
+      width: 90%;
+      order: 1;
+  }
+
+  .main-image-container {
+      width: 100%;
+      height: auto;
+      max-width: 700px;
+      order: 2;
+  }
+
+  .left-column {
+      order: 3;
+  }
+
+  .right-column {
+      order: 4;
+  }
+
+  .side-column {
+      margin: 1rem 0 !important;
+  }
+
+  .fs-5 {
+      font-size: 1rem !important;
+  }
+}
+
+/* Very small screens */
+@media (max-width: 576px) {
+  .news-container {
+      width: 100%;
+  }
+
+  .main-image-container img {
+      width: 100%;
+  }
+
+  .side-column img {
+      width: 120px !important;
+      height: auto !important;
+  }
+}
+@media (max-width: 300px) {
+  .player-col {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+}
