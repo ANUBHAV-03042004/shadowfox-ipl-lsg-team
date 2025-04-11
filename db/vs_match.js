@@ -1,12 +1,7 @@
 const mongoose = require("mongoose");
 const dc_squad = require("../public/js/squad"); 
 
-// mongoose.connect("mongodb://localhost:27017/ipl_team", {
-//     useNewUrlParser: true,
-//     useUnifiedTopology: true
-// })
-// .then(() => console.log("✅ MongoDB Connected"))
-// .catch(err => console.error("❌ MongoDB Connection Error:", err));
+
 
 const vs_matchSchema = new mongoose.Schema({
     match_id: Number,

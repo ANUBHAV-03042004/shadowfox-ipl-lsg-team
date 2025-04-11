@@ -10,6 +10,9 @@ app.use(cors({
     allowedHeaders: ['Content-Type', 'Access-Control-Request-Private-Network'],
     exposedHeaders: ['Access-Control-Allow-Private-Network']
 }));
+require('dotenv').config();
+const mongo_url = process.env.MONGO_URL; 
+
 
 // Handle preflight requests for /proxy-rss-feed
 app.options('/proxy-rss-feed', (req, res) => {
@@ -41,7 +44,7 @@ const TELEGRAM_CHAT_ID = "5360379087";
 const mongoose = require("mongoose");
 
 // mongodb://localhost:27017/ipl_team
-mongoose.connect("mongodb+srv://ipl_lsg_team:S9n2k%40sh58@akscluster.z0f9q.mongodb.net/ipl_lsg_team?retryWrites=true&w=majority", {
+mongoose.connect(mongo_url, {
     useNewUrlParser: true,
     useUnifiedTopology: true
 })
